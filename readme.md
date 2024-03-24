@@ -1,8 +1,6 @@
-
 # Django Framwork
 
 A brief description of what this project does and who it's for
-
 
 ## Python Setup
 
@@ -11,16 +9,18 @@ Check python version
 ```python
 python
 ```
-or 
+
+or
 
 ```python
 py --version
 ```
+
 check the installed package
+
 ```python
 pip freeze
 ```
-
 
 ## Django Setup
 
@@ -29,55 +29,66 @@ Installed Django
 ```python
 pip install django
 ```
-or 
+
+or
+
 ```python
 pip i django
 ```
 
 Create a Django Project
+
 ```python
 djano-admin startproject <ProjectName>
 ```
 
 Navigae to your project directory
+
 ```bash
 cd <ProjectDirectory>
 ```
 
 Run Server
+
 ```python
 python manage.py runserver
 ```
 
 Run Server on Specific port if you want..
+
 ```python
 python manage.py runserver <YOUR_PORT_NUMBER>
 ```
 
-
 # Project Structure
 
 See admin panel on browser once server runs
-`http://127.0.0.1:8000/admin` if you are using custom port replace   `8000` with your port number
+`http://127.0.0.1:8000/admin` if you are using custom port replace `8000` with your port number
+
 - This admin panel is created by default.
 
 ## /template
+
 - Created by you.
 - This directory is used to store HTML templates for the project. It contains files that define the structure and layout of web pages.
 
 ## /static
+
 - Created by you.
 - The static directory is used to store static files such as CSS, JavaScript, images, and other resources that are served directly to the web browser.
 
 ## /media
+
 - Created by you.
 - This directory is used to store user-uploaded files such as images, videos, and other media assets.
 
 ## /manage.py
--  By default.
+
+- By default.
 - The manage.py file is a command-line utility that helps with various aspects of Django project management, including running development servers, creating migrations, and more.
 
 ## /db.sqlite3
+
 - By default.
 - This file contains the SQLite database for the project, which is the default database used by Django for local development.
 
@@ -94,37 +105,37 @@ See admin panel on browser once server runs
 - `asgi.py` ASGI (Asynchronous Server Gateway Interface) is used for handling asynchronous code and allows Django to communicate with web servers and other protocols that support asynchronous Python.
 - `/__pycache__`This directory contains Python bytecode cache files, which are automatically generated and used by Python to optimize performance during subsequent runs of the application.
 
-
-
-
-
-
-
-
 # Django Project `settings.py` File Documentation
 
 ## Introduction
+
 The `settings.py` file in a Django project contains all the project settings and configurations. It is a crucial file where various parameters such as database settings, middleware configurations, installed apps, static files setup, and more are defined.
 
 ## File Structure
+
 Within the `settings.py` file, you will find the following key sections:
 
 1. **Basic Configuration:**
+
    - This section includes essential project configurations like `DEBUG` mode, `ALLOWED_HOSTS`, and project's `SECRET_KEY`.
 
 2. **Database Configuration:**
+
    - Contains database-related settings such as `DATABASES` dictionary with details like `ENGINE`, `NAME`, `USER`, `PASSWORD`, `HOST`, `PORT`, etc.
 
 3. **Apps Configuration:**
+
    - Defines the list of installed apps for the project in the `INSTALLED_APPS` setting.
 
 4. **Middleware Configuration:**
+
    - Lists the middleware classes that Django will use to process requests in the `MIDDLEWARE` setting.
 
 5. **Static Files Configuration:**
    - Includes settings related to serving static files like `STATIC_URL`, `STATIC_ROOT`, `STATICFILES_DIRS`.
 
 ## Code Reference
+
 Here is a basic code reference illustrating a sample `settings.py` file structure:
 
 ```python
@@ -253,4 +264,152 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ```
+
 ## Database migration
+
+Create schema to new change in data base
+
+- Migrate Configure data base
+
+```python
+python manage.py migrate
+```
+
+- To see the migrated data base use a Database Viewer `sqlitebrowser` to download it visit `https://sqlitebrowser.org/dl/`
+
+- Open Database and select your `db.sqlite3` file from the project
+- Now your are seeing the database of your project for new changes repeat the same method
+
+## Create Super User
+
+Create a Super User to acess the a pannel
+
+```bash
+python manage.py createsuperuser
+```
+
+Enter these details for super user creation
+
+```bash
+Username (leave blank to use 'hp'): admin
+Email address: abc@gmail.com
+Password:
+Password (again):
+Superuser created successfully.
+```
+
+Now you can login to admin pannel bu visiting `http://127.0.0.1:8000/admin`
+
+## Views and Urls
+
+create a file `views.py` in `<PROJECT_NAME>\<PROJECT_NAME>` whare `urls.py` and `setting.py exist`
+
+- `views.py`
+
+```python
+from django.http import HttpResponse  // return a simple text response
+
+// method to return a data by hitting url
+def about(request):
+    return HttpResponse("Welcome to Wscubetech!")
+
+    //return HttpResponse("<h1>Welcome to Wscubetech!<h1>")
+
+```
+
+now configure this mithod in `urls.py`
+
+- `urls.py`
+
+```python
+"""
+URL configuration for wscubetech project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+
+
+
+// Code start from here
+from django.contrib import admin
+from django.urls import path
+from wscubetech import views  //this is my code for configure url where wscubetech is my project name and views is my file name where I have created my function
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+
+    path('about/', views.about)  // this my url configuration
+]
+```
+
+## Dynamic URL
+
+add these method to `views.py`
+
+```python
+from django.http import HttpResponse
+
+# Simple view function
+def about(request):
+    return HttpResponse("<h1>Welcome to Wscubetech!<h1>")
+
+# Setup view function with parameters with String type
+def userDetailsByName( request, name):
+    return HttpResponse(f"<h1>Welcome {name}!<h1>")
+
+# Setup view function with parameters with Integer type
+def userDetailsById( request, id):
+    return HttpResponse(f"<h1>Welcome User with ID: {id}!<h1>")
+
+# Setup view function with parameters with Slug type
+def userDetailsBySlug( request, slug):
+    return HttpResponse(f"<h1>Welcome User with Slug: {slug}!<h1>")
+
+#Setupt user with without a type
+def userDetailsByData(request, data):
+    return HttpResponse(f"<h1>Welcome User {data}!<h1>")
+
+```
+
+handle these method in `urls.py`
+
+```python
+from django.contrib import admin
+from django.urls import path
+from wscubetech import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('about/', views.about),
+
+    #these are the code for dynamic url
+    path('user-name/<str:name>/', views.userDetailsByName),
+    path('user-id/<int:id>/', views.userDetailsById),
+    path('user-slug/<slug:slug>/', views.userDetailsBySlug),
+    path('user/<data>/', views.userDetailsByData),
+
+
+]
+
+
+```
+
+hit this url to get HttpResponse
+
+- String parameters `http://127.0.0.1:8000/user-name/amjad@gmail.com`
+- Int parameters `http://127.0.0.1:8000/user-id/amjad`
+- Stug parameters `http://127.0.0.1:8000/user-slug/amjad-ssss-name`
+- Without tpye parameters `http://127.0.0.1:8000/user/amjad`
+
+`note` this is a default port number

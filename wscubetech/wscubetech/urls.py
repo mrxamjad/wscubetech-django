@@ -16,7 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from wscubetech import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('about/', views.about),
+    path('user-name/<str:name>/', views.userDetailsByName),
+    path('user-id/<int:id>/', views.userDetailsById),
+    path('user-slug/<slug:slug>/', views.userDetailsBySlug),
+    path('user/<data>/', views.userDetailsByData),
+         
+    
 ]
