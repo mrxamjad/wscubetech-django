@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 
+from django.shortcuts import render # Import render function to render HTML templates
+
 # Simple view function
 def about(request):
     return HttpResponse("<h1>Welcome to Wscubetech!<h1>")
@@ -19,6 +21,21 @@ def userDetailsBySlug( request, slug):
 #Setupt user with without a type
 def userDetailsByData(request, data):
     return HttpResponse(f"<h1>Welcome User {data}!<h1>")
+
+
+#rendor the index.html file from the templates directory
+def home(request):
+    return render(request, 'index.html')
+
+
+# thsi function will render the index_dynamic.html file from the templates directory with dynamic data
+def homeDynamic(request):
+    
+    data={
+        "title": "Dynamic Title",
+        "body": "Dynamic Body",
+    }
+    return render(request, 'index_dynamic.html', data)
 
 
 

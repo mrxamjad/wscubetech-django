@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project like this: BASE_DIR / 'subdir'. and it will return the path of the project directory.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -54,7 +54,8 @@ ROOT_URLCONF = 'wscubetech.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR, 'templates'],  # Add this line to the TEMPLATES list it will allow Django to look for templates in the root directory of the project along with templated directory.
+        
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

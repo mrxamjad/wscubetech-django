@@ -413,3 +413,150 @@ hit this url to get HttpResponse
 - Without tpye parameters `http://127.0.0.1:8000/user/amjad`
 
 `note` this is a default port number
+
+## Render HTML static Template
+
+Create a `templates` directory and create a html file in it eg `index.html`
+
+- `index.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>This is home page url</title>
+    <style>
+      body {
+        background-color: #f3f3f3;
+      }
+      .first {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        background-color: cadetblue;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="first">This is home page url</h1>
+  </body>
+</html>
+```
+
+- create a method to return the index.html view so to render the html file import `renderer` in `views.py`
+
+```python
+from django.shortcuts import render
+```
+
+now create this method to reder `index.html`
+
+```python
+def home(request):
+    return render(request, 'index.html')
+```
+
+- now configure it with `urls.py`
+
+```python
+path("", views.homeDynamic)
+```
+
+`note` Since we are putting `" "` here it will come as default url like this `http://127.0.0.1:8000/`
+
+- Since you have added a new folder so configure it it `settings.py`
+
+replace `TEMPLATES` variable's `DIRS` with this:
+
+```python
+'DIRS': [BASE_DIR, 'templates'],
+```
+
+it will notify that one templates directory is added along with root directory
+
+- Now you are ready to render so restart the server with `python manage.py runserver`
+
+# Code Reference
+
+- `views.py`
+
+```python
+from django.http import HttpResponse
+from django.shortcuts import render
+
+def home(request):
+    return render(request, 'index.html')
+```
+
+- `urls.py`
+
+```python
+ path("", views.home),
+```
+
+- `settings.py`
+
+```python
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR, 'templates'],  # Add this line to the TEMPLATES list it will allow Django to look for templates in the root directory of the project along with templated directory.
+
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+```
+
+## Render HTML Dynamic template
+
+jus change the `views.py` method like this
+
+```python
+def homeDynamic(request):
+
+   data={
+       "title": "Dynamic Title",
+       "body": "Dynamic Body",
+   }
+   return render(request, 'index_dynamic.html', data)
+```
+
+`date` acts as a dicionary and pass as parameter. It will be fetch by its `key` like `title` and `body`
+
+- Now add a new html file in `templates` directory eg `index_dynamic.html`
+  `index_dynamic.html`
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{title}}</title>
+  </head>
+  <body>
+    {{body}}
+  </body>
+</html>
+```
+
+`{{}}` denotes that the value is assign Dynamically by parameter's `key` like `body` and `title`
+
+configure this with `urls.py`
+
+```python
+ path("home-dynamic/", views.homeDynamic)
+```
+
+now restart the server and hit `http://127.0.0.1:8000/home-dynamic`

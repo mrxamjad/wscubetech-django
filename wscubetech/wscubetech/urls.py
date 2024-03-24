@@ -25,6 +25,10 @@ urlpatterns = [
     path('user-id/<int:id>/', views.userDetailsById),
     path('user-slug/<slug:slug>/', views.userDetailsBySlug),
     path('user/<data>/', views.userDetailsByData),
+    
+    path("", views.home),  # IT will render the index.html file from the templates directory if only simple url getting hitted.
+    
+    path("home-dynamic/", views.homeDynamic)  # IT will render the index_dynamic.html file from the templates directory with dynamic data if only simple url getting hitted.
          
     
 ]
